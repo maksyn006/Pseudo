@@ -26,12 +26,24 @@ namespace Pseudo
             Control();
         }
         public void Control() {
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Z)) fov += (float)(Math.PI / 180)*time*fov_speed;
-            if (Keyboard.IsKeyPressed(Keyboard.Key.X)) fov -= (float)(Math.PI / 180)*time*fov_speed;
-            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.A)) playerRect.Left -= 0.1f * time;
-            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.D)) playerRect.Left += 0.1f * time;
-            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.W)) playerRect.Top -= 0.1f * time;
-            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.S)) playerRect.Top += 0.1f * time;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Z)) fov -= (float)(Math.PI / 180) * time * fov_speed;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.X)) fov += (float)(Math.PI / 180) * time * fov_speed;
+            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.A)){ 
+                playerRect.Left += (float)Math.Cos((fov + fov_scale / 2) - Math.PI / 2) * 0.01f * time; 
+                playerRect.Top  += (float)Math.Sin((fov + fov_scale / 2) - Math.PI / 2) * 0.01f * time; 
+            }
+            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.D)) { 
+                playerRect.Left += (float)Math.Cos((fov + fov_scale / 2) + Math.PI / 2) * 0.01f * time; 
+                playerRect.Top  += (float)Math.Sin((fov + fov_scale / 2) + Math.PI / 2) * 0.01f * time; 
+            }
+            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.W)) {
+                playerRect.Left += (float)Math.Cos(fov + fov_scale / 2) * 0.01f * time; 
+                playerRect.Top  += (float)Math.Sin(fov + fov_scale / 2) * 0.01f * time;
+            }
+            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.S)) {
+                playerRect.Left += (float)Math.Cos((fov + fov_scale / 2) + Math.PI) * 0.01f * time;
+                playerRect.Top  += (float)Math.Sin((fov + fov_scale / 2) + Math.PI) * 0.01f * time;
+            }
 
         }
         public void Draw(RenderTarget target, RenderStates states)
