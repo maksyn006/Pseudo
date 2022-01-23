@@ -12,9 +12,11 @@ namespace Pseudo
     internal class Program
     {
         public static RenderWindow win;
+        public static RenderWindow test;
         static void Main(string[] args)
         {
             win = new RenderWindow(new VideoMode(800, 600), "Pseudo");
+            test = new RenderWindow(new VideoMode(800,600),"test");
             win.SetVerticalSyncEnabled(true);
             Game game = new Game();
 
@@ -25,8 +27,11 @@ namespace Pseudo
                 win.DispatchEvents();
                 game.Update(); 
                 win.Clear(Color.White);
+                test.Clear(Color.White);
                 game.Draw();
+                game.Test();
                 win.Display();
+                test.Display();
             }
         }
 

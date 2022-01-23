@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
-namespace Pseudo
-{
+using SFML.System;
+namespace Pseudo{
     internal class Game
     {
         public List<Tile> map;
@@ -38,13 +38,27 @@ namespace Pseudo
             //    rect.FillColor = map.ElementAt(i).c;
             //    Program.win.Draw(rect);
             //}
-            for (float i = player.fov; i <= player.fov+player.fov_scale; i+=(float)(Math.PI/180))
+            for (float i = player.fov; i <= player.fov+player.fov_scale; i+=(float)(Math.PI/1600))
             {
-                Intersect(i);
+                Intersect(i, i * (player.fov_scale / (float)(Math.PI / 1600)) / (player.fov+player.fov_scale) );
             }
             Program.win.Draw(player);
         }
-        private void Intersect(float angle)
+        public void Test()
+        {
+            for (int i = 0; i < map.Count; i++)
+            {
+                RectangleShape rect = new RectangleShape(new SFML.System.Vector2f(map.ElementAt(i).fr.Width, map.ElementAt(i).fr.Height));
+                rect.Position = new SFML.System.Vector2f(map.ElementAt(i).fr.Left,map.ElementAt(i).fr.Top);
+                rect.FillColor = map.ElementAt(i).c;
+                Program.test.Draw(rect);
+            }
+            RectangleShape hero = new RectangleShape(new Vector2f(player.playerRect.Width, player.playerRect.Height));
+            hero.Position = new Vector2f(player.playerRect.Left, player.playerRect.Top);
+            hero.FillColor = Color.Magenta;
+            Program.test.Draw(hero);
+        }
+        private void Intersect(float angle,float camx)
         {
             float dx = (float)Math.Cos(angle);
             float dy = (float)Math.Sin(angle);
@@ -59,14 +73,18 @@ namespace Pseudo
                 }
                 if(player.playerRect.Intersects(map.ElementAt(i).fr))
                 {
-                    RectangleShape rect = new RectangleShape(new SFML.System.Vector2f(5,5));
-                    rect.Position = new SFML.System.Vector2f(player.playerRect.Left, player.playerRect.Top);
+                    //RectangleShape rect = new RectangleShape(new SFML.System.Vector2f(5,5));
+                    //rect.Position = new SFML.System.Vector2f(player.playerRect.Left, player.playerRect.Top);
+                    //rect.FillColor = map.ElementAt(i).c;
+                    RectangleShape rect = new RectangleShape(new SFML.System.Vector2f(1, 300));
+                    rect.Position = new SFML.System.Vector2f(camx, 150);
                     rect.FillColor = map.ElementAt(i).c;
                     Program.win.Draw(rect);
-                }
+                }                
                 player.playerRect.Left = startLeft;
                 player.playerRect.Top = startTop;            
             }
+            //Console.WriteLine(camx);
         }
     }
 }
